@@ -1,4 +1,4 @@
-package org.jetbrains.plugins.template
+package com.github.matio004.translatorpluginjava2026
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls
