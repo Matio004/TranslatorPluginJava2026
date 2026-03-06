@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.translator</id>
-    <name>TranslatorPluginJava2026</name>
+    <name>TranslatorInator</name>
     <vendor>matio004</vendor>
 
     <depends>com.intellij.modules.platform</depends>
