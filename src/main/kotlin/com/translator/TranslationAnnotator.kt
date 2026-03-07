@@ -8,12 +8,13 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.util.PsiTreeUtil
+import java.util.concurrent.ConcurrentHashMap
 
 class TranslationAnnotator : ExternalAnnotator<List<PsiNameIdentifierOwner>, Map<PsiNameIdentifierOwner, String>>() {
 
     companion object {
-        private val translationCache = mutableMapOf<String, String>()
-        private val alreadyEnglishCache = mutableSetOf<String>()
+        private val translationCache = ConcurrentHashMap<String, String>()
+        private val alreadyEnglishCache = ConcurrentHashMap.newKeySet<String>()
     }
 
     override fun collectInformation(file: PsiFile, editor: Editor, hasErrors: Boolean): List<PsiNameIdentifierOwner> {
