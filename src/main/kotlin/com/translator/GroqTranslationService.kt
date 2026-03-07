@@ -87,12 +87,14 @@ class GroqTranslationService {
             val responseJson = gson.fromJson(responseString, JsonObject::class.java)
             val choices = responseJson.getAsJsonArray("choices")
 
-            if (choices != null && !choices.isEmpty) {
-                val message = choices.get(0).asJsonObject.getAsJsonObject("message")
-                message.get("content").asString.trim()
-            } else {
-                null
+            if (choices != null && choices.size() > 0) {
+                val choiceObj = choices.get(0).asJsonObject
+                val messageObj = choiceObj.getAsJsonObject("message")
+                if (messageObj != null && messageObj.has("content")) {
+                    return messageObj.get("content").asString.trim()
+                }
             }
+            return null
         } catch (e: Exception) {
             log.error(">>> Wyjątek podczas komunikacji z API Groq", e)
             null
