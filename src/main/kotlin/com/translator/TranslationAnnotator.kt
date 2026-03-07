@@ -24,6 +24,9 @@ class TranslationAnnotator : ExternalAnnotator<List<PsiNameIdentifierOwner>, Map
     override fun doAnnotate(elements: List<PsiNameIdentifierOwner>?): Map<PsiNameIdentifierOwner, String> {
         if (elements.isNullOrEmpty()) return emptyMap()
 
+        val apiKey = ApiCredentialsManager.apiKey?.trim()
+        if (apiKey.isNullOrBlank()) return emptyMap()
+
         val service = ApplicationManager.getApplication().getService(GroqTranslationService::class.java)
         val results = mutableMapOf<PsiNameIdentifierOwner, String>()
 
@@ -40,7 +43,7 @@ class TranslationAnnotator : ExternalAnnotator<List<PsiNameIdentifierOwner>, Map
                 continue
             }
 
-            val translated = service.translateToEnglish(word, "Polish")
+            val translated = service.translateToEnglish(word, "Polish", apiKey)
 
             if (translated.isNullOrBlank() || translated.equals(word, ignoreCase = true)) {
                 alreadyEnglishCache.add(word)
