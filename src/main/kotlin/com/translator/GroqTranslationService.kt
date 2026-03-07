@@ -13,7 +13,6 @@ class GroqTranslationService {
     private val gson = Gson()
 
     fun translateToEnglish(variableName: String, sourceLanguage: String, apiKey: String): String? {
-//        val apiKey = ApiCredentialsManager.apiKey?.trim()
         if (apiKey.isBlank()) {
             log.warn("Brak klucza API Groq. Użytkownik nie skonfigurował pluginu.")
             return null
@@ -22,10 +21,12 @@ class GroqTranslationService {
         val model = AppSettingsState.instance.modelName.ifBlank { "openai/gpt-oss-120b" }
         val url = "https://api.groq.com/openai/v1/chat/completions"
 
+        val targetLanguage = AppSettingsState.instance.targetLanguage;
+
         val systemPrompt = """
             You are a coding assistant.
             When given a variable name in $sourceLanguage,
-            translate it into English while preserving the original naming convention.
+            translate it into $targetLanguage while preserving the original naming convention.
             Return ONLY the translated variable name—no additional text, no markdown formatting, and no quotation marks.
             Examples:
             maksymalnaWysokość = maxHeight

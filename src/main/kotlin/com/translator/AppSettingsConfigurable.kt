@@ -30,12 +30,13 @@ class AppSettingsConfigurable : Configurable {
         val settings = AppSettingsState.instance
         val formApiKey = mySettingsComponent?.apiKey ?: ""
         return mySettingsComponent?.modelName != settings.modelName ||
-                cachedApiKey != formApiKey
+                cachedApiKey != formApiKey || mySettingsComponent?.targetLanguage != settings.targetLanguage
     }
 
     override fun apply() {
         val settings = AppSettingsState.instance
-        settings.modelName = mySettingsComponent?.modelName ?: "llama3-8b-8192"
+        settings.modelName = mySettingsComponent?.modelName ?: "openai/gpt-oss-120b"
+        settings.targetLanguage = mySettingsComponent?.targetLanguage ?: "English"
 
         val newKey = mySettingsComponent?.apiKey ?: ""
         cachedApiKey = newKey
@@ -48,6 +49,7 @@ class AppSettingsConfigurable : Configurable {
     override fun reset() {
         val settings = AppSettingsState.instance
         mySettingsComponent?.modelName = settings.modelName
+        mySettingsComponent?.targetLanguage = settings.targetLanguage
         mySettingsComponent?.apiKey = cachedApiKey
     }
 

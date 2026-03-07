@@ -18,7 +18,14 @@ class TranslateQuickFix(
     override fun isAvailable(project: Project, editor: Editor?, file: PsiFile?): Boolean = element.isValid
 
     override fun invoke(project: Project, editor: Editor?, file: PsiFile?) {
-        element.setName(translatedText)
+        com.intellij.openapi.application.ApplicationManager.getApplication().invokeLater({
+            if (project.isDisposed || !element.isValid) return@invokeLater
+
+            val factory = com.intellij.refactoring.RefactoringFactory.getInstance(project)
+            val renameRefactoring = factory.createRename(element, translatedText)
+
+            renameRefactoring.run()
+        }, com.intellij.openapi.application.ModalityState.defaultModalityState())
     }
 
     override fun startInWriteAction(): Boolean = true

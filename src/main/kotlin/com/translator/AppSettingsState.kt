@@ -9,14 +9,12 @@ import com.intellij.openapi.components.*
 )
 @Service(Service.Level.APP)
 class AppSettingsState : PersistentStateComponent<AppSettingsState> {
-
     var targetLanguage: String = "English"
-    var modelName: String = "gpt-4"
+    var modelName: String = "openai/gpt-oss-120b"
 
     override fun getState(): AppSettingsState = this
 
     override fun loadState(state: AppSettingsState) {
-        this.targetLanguage = state.targetLanguage
         this.modelName = state.modelName
     }
 

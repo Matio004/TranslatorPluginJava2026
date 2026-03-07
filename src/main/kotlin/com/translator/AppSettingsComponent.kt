@@ -9,11 +9,13 @@ class AppSettingsComponent {
     val panel: JPanel
     private val apiKeyField = JBPasswordField()
     private val modelNameField = JBTextField()
+    private val targetLanguageField = JBTextField()
 
     init {
         panel = FormBuilder.createFormBuilder()
             .addLabeledComponent("Klucz API: ", apiKeyField, 1, false)
             .addLabeledComponent("Nazwa modelu LLM: ", modelNameField, 1, false)
+            .addLabeledComponent("Język docelowy ", targetLanguageField, 1, false)
             .addComponentFillVertically(JPanel(), 0)
             .panel
     }
@@ -28,5 +30,11 @@ class AppSettingsComponent {
         get() = modelNameField.text
         set(value) {
             modelNameField.text = value
+        }
+
+    var targetLanguage: String
+        get() = targetLanguageField.text
+        set(value) {
+            targetLanguageField.text = value
         }
 }
