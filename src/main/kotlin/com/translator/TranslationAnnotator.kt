@@ -5,6 +5,7 @@ import com.intellij.lang.annotation.ExternalAnnotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.util.PsiTreeUtil
@@ -31,6 +32,7 @@ class TranslationAnnotator : ExternalAnnotator<List<PsiNameIdentifierOwner>, Map
         val results = mutableMapOf<PsiNameIdentifierOwner, String>()
 
         for (element in elements) {
+            ProgressManager.checkCanceled()
             val word = ApplicationManager.getApplication().runReadAction<String?> {
                 if (element.isValid) element.name else null
             }
