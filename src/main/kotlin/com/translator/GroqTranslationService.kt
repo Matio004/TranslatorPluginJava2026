@@ -13,7 +13,7 @@ class GroqTranslationService {
     private val gson = Gson()
 
     fun translateToEnglish(variableName: String, sourceLanguage: String): String? {
-        val apiKey = ApiCredentialsManager.apiKey?.trim() // Trim usuwa ewentualne ukryte spacje/nowe linie
+        val apiKey = ApiCredentialsManager.apiKey?.trim()
         if (apiKey.isNullOrBlank()) {
             log.warn("Brak klucza API Groq. Użytkownik nie skonfigurował pluginu.")
             return null
@@ -68,23 +68,20 @@ class GroqTranslationService {
             connection.setRequestProperty("Accept", "application/json")
             connection.doOutput = true
 
-            // Wysyłanie ładunku JSON
             connection.outputStream.use { os ->
                 val input = jsonPayload.toByteArray(Charsets.UTF_8)
                 os.write(input, 0, input.size)
             }
 
-            // ODCZYT KODU BŁĘDU
             val statusCode = connection.responseCode
             if (statusCode >= 400) {
-                // Jeśli serwer zwraca błąd, czytamy errorStream zamiast inputStream!
+
                 val errorResponse = connection.errorStream?.bufferedReader()?.use { it.readText() }
                 log.error(">>> Błąd Groq API (HTTP $statusCode): $errorResponse")
                 connection.disconnect()
                 return null
             }
 
-            // Sukces - czytamy odpowiedź
             val responseString = connection.inputStream.bufferedReader().use { it.readText() }
             val responseJson = gson.fromJson(responseString, JsonObject::class.java)
             val choices = responseJson.getAsJsonArray("choices")

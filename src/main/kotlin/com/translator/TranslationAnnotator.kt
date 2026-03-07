@@ -27,22 +27,18 @@ class TranslationAnnotator : ExternalAnnotator<List<PsiNameIdentifierOwner>, Map
         val results = mutableMapOf<PsiNameIdentifierOwner, String>()
 
         for (element in elements) {
-            // POPRAWKA: Odczyt nazwy elementu owinięty w bezpieczny ReadAction
             val word = ApplicationManager.getApplication().runReadAction<String?> {
                 if (element.isValid) element.name else null
             }
 
-            // Jeśli element został usunięty lub nazwa jest za krótka - pomijamy
             if (word == null || word.length < 3) continue
 
-            // Optymalizacja z pamięci podręcznej (Cache)
             if (alreadyEnglishCache.contains(word)) continue
             if (translationCache.containsKey(word)) {
                 results[element] = translationCache[word]!!
                 continue
             }
 
-            // Odpytanie API Groq
             val translated = service.translateToEnglish(word, "Polish")
 
             if (translated.isNullOrBlank() || translated.equals(word, ignoreCase = true)) {
@@ -52,7 +48,6 @@ class TranslationAnnotator : ExternalAnnotator<List<PsiNameIdentifierOwner>, Map
                 results[element] = translated
             }
 
-            // Delikatne opóźnienie dla darmowego klucza API, aby uniknąć błędów 429 Too Many Requests
             Thread.sleep(150)
         }
 
@@ -63,7 +58,7 @@ class TranslationAnnotator : ExternalAnnotator<List<PsiNameIdentifierOwner>, Map
         if (results.isNullOrEmpty()) return
 
         for ((element, translated) in results) {
-            // Metoda apply() ma gwarantowany odczyt przez IntelliJ, tu runReadAction nie jest wymagane
+
             val identifier = element.nameIdentifier ?: continue
 
             holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "Translation available: $translated")

@@ -10,7 +10,6 @@ import com.intellij.openapi.components.*
 @Service(Service.Level.APP)
 class AppSettingsState : PersistentStateComponent<AppSettingsState> {
 
-    // Tu dodajesz swoje parametry
     var targetLanguage: String = "English"
     var modelName: String = "gpt-4"
 

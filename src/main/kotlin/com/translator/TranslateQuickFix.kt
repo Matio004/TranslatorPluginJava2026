@@ -11,18 +11,15 @@ class TranslateQuickFix(
     private val translatedText: String
 ) : IntentionAction {
 
-    // Tekst wyświetlany w menu po wciśnięciu Alt+Enter
     override fun getText(): String = "Translate to '$translatedText'"
 
     override fun getFamilyName(): String = "Translation Plugin"
 
     override fun isAvailable(project: Project, editor: Editor?, file: PsiFile?): Boolean = element.isValid
 
-    // To wykona się po kliknięciu opcji
     override fun invoke(project: Project, editor: Editor?, file: PsiFile?) {
-        element.setName(translatedText) // Zmienia nazwę zmiennej/funkcji
+        element.setName(translatedText)
     }
 
-    // Pozwala IntelliJ na bezpieczną modyfikację pliku
     override fun startInWriteAction(): Boolean = true
 }

@@ -14,7 +14,7 @@ class AppSettingsComponent {
         panel = FormBuilder.createFormBuilder()
             .addLabeledComponent("Klucz API: ", apiKeyField, 1, false)
             .addLabeledComponent("Nazwa modelu LLM: ", modelNameField, 1, false)
-            .addComponentFillVertically(JPanel(), 0) // Wypycha elementy do góry
+            .addComponentFillVertically(JPanel(), 0)
             .panel
     }
 
