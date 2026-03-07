@@ -12,9 +12,9 @@ class GroqTranslationService {
     private val log = Logger.getInstance(GroqTranslationService::class.java)
     private val gson = Gson()
 
-    fun translateToEnglish(variableName: String, sourceLanguage: String): String? {
-        val apiKey = ApiCredentialsManager.apiKey?.trim()
-        if (apiKey.isNullOrBlank()) {
+    fun translateToEnglish(variableName: String, sourceLanguage: String, apiKey: String): String? {
+//        val apiKey = ApiCredentialsManager.apiKey?.trim()
+        if (apiKey.isBlank()) {
             log.warn("Brak klucza API Groq. Użytkownik nie skonfigurował pluginu.")
             return null
         }
