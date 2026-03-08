@@ -1,5 +1,7 @@
 # TranslatorInator
+<!-- Plugin description -->
 Przedstawiony projekt to kod źródłowy wtyczki do środowiska IntelliJ IDEA o nazwie TranslatorInator. Wtyczka ta ma na celu pomaganie programistom w automatycznym tłumaczeniu nazw zmiennych i innych elementów kodu na dowolny wybrany język przy użyciu <kbd>alt + enter</kbd> (quick fixes).
+<!-- Plugin description end -->
 
 [bez tytułu.webm](https://github.com/user-attachments/assets/bb883274-f11d-4a61-8722-8243b1cd7aca)
 
